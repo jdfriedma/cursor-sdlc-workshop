@@ -12,6 +12,17 @@ This folder is where your project code lives.
 - A web page with basic HTML/CSS/JS
 - A simple CLI script
 
+### Run locally
+
+The app loads `data/demo.json` with `fetch()`, so open it through a **local server** (not `file://`):
+
+```bash
+cd projects/<your-github-username>/base_mvp
+python3 -m http.server 8765
+```
+
+Then visit **http://localhost:8765/** in your browser.
+
 ### Instructions
 
 1. Tell Cursor to read the `prd.md` in your project folder
