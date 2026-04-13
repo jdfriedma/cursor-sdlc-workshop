@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#f4f7fb" />
+  <rect x="40" y="40" width="1200" height="640" rx="28" fill="#ffffff" stroke="#93a1a1" stroke-width="4" stroke-dasharray="18 12" />
+  <text x="640" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#268bd2">PLACEHOLDER</text>
+  <text x="640" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="52" font-weight="700" fill="#657b83">Apple Pages</text>
+  <text x="640" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#657b83">Show either the Pages logo</text>
+  <text x="640" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#657b83">or a clean screenshot of a Pages document.</text>
+  <text x="640" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#93a1a1">Goal: show that even less-common defaults still create loyalty.</text>
+  <text x="640" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#268bd2">Drop in real image here</text>
+</svg>

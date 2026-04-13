@@ -1,268 +1,228 @@
 # Cursor 101 Presentation Cheat Sheet
 
-## Opening (5 min)
-- **Reassure the audience**: You don't need to write code to use Cursor effectively
-- **Field Engineering support**: FEs are here to help—bring us into meetings anytime, Slack channel: `#team-field-eng`
-- **POC structure reminder**: 4-week trial → Cursor 101 (week 1) → Cursor 201 (week 2) → Office hours/reverse demos (weeks 3-4)
+## Opening (3-5 min)
+- **Reassure the audience**: You do not need to be an engineer to understand the product surfaces.
+- **Field Engineering support**: FEs are here to help. Pull us into customer calls anytime. Slack: `#team-field-eng`.
+- **POC structure reminder**: 4-week trial -> Cursor 101 (week 1) -> Cursor 201 (week 2) -> office hours / reverse demos (weeks 3-4).
+- **Session framing**: "Cursor is one platform with three surfaces. We will start at the lowest abstraction and work upward: CLI -> IDE -> Cloud."
 
 ---
 
-## The Cursor Ecosystem (3 min)
-| Product | What it is |
-|---------|------------|
-| **IDE** | Main product—where we're focusing today |
-| **CLI** | Command line interface (competes with Claude Code, Codex) |
-| **Cloud Agents** | Run prompts on VMs in the cloud |
-| **BugBot** | Auto-review PRs for bugs |
-
-**Key point**: IDE is still the best place to build software—it's our core focus
-
----
-
-## IDE Orientation (5 min)
-**Four quadrants:**
-1. **Left**: File Explorer (your project files)
-2. **Center**: File Editor (view/edit code)
-3. **Right**: Chat Pane (talk to AI models)
-4. **Bottom**: Utilities (terminal, errors, etc.)
-
-**Demo**: Open an empty folder, create `index.html`
+## Session Flow
+1. Three surfaces, one platform
+2. CLI: the foundation
+3. IDE: the core product
+4. Cloud: the highest abstraction
+5. Choosing the right surface
+6. Why this matters in enterprise
+7. Key takeaways and Q&A
 
 ---
 
-## Editing Features
-
-### Tab (AI Autocomplete)
-- **Powered by**: Fusion (Cursor's own model)—**huge differentiator**
-- **What it does**: Predicts your next edit as you type (not just completions—full multi-line edits)
-- **Why it's special**:
-  - Analyzes your codebase
-  - Learns from accepted/rejected suggestions
-  - Writes code "in your voice"
-  - Top 3 models globally for lines of code generated/day
-- **Great entry point** for engineers new to AI coding
-- **Demo**: Type `<html>` tag → Tab suggests skeleton → accept with Tab key
-
-### Inline Edit (Cmd+K)
-- **How to use**: Highlight code → `Cmd+K` → type a natural language instruction
-- **Model agnostic**: Choose from any frontier model (Claude, GPT, Gemini, etc.)
-- **Diff interface**: See old code (red) vs new code (green) → Accept/Reject
-- **Demo**: Highlight H1 tag → "make this more colorful"
-
-### Terminal Cmd+K
-- Press `Cmd+K` in the terminal to describe what you want in plain English
-- Cursor translates your intent into the right shell command
-- Great for people who don't memorize CLI flags
+## Three Surfaces, One Platform (2-3 min)
+- **Core message**: Cursor is not three disconnected products. It is one platform exposed through different surfaces.
+- **CLI**: Lowest abstraction. Most portable. Best for automation and power users.
+- **IDE**: Core product. Same platform plus visual feedback, discoverability, and guardrails.
+- **Cloud**: Highest abstraction. Agents run remotely so the user does not need local setup.
+- **Talk track**: "We will start at the bottom and build up. Each layer makes the platform easier to use for a broader audience."
 
 ---
 
-## Chat & Agent
+## CLI: The Portable Primitive (5 min)
 
-### Chat (Cmd+L)
-- **This is where most Cursor engineers live** (95% of code generation)
-- **Key capabilities**:
-  - Natural language prompts
-  - Create/update **multiple files** at once
-  - Streaming responses (see it work in real-time)
-  - Build up context over multiple prompts
-- **Demo**: "Build a multi-page website that is a restaurant directory for Germany"
+### What It Is
+- Terminal-first Cursor access through `agent` and shell commands.
+- The most portable surface because every machine and server already has a terminal.
 
-### Agent Mode (default)
-- Autonomous multi-step coding: reads files, writes code, runs commands, fixes errors in a loop
-- The agent decides what to read, edit, and run—you just describe the goal
-- Can install dependencies, create files, and iterate on linter errors automatically
+### Who Uses It
+- Power users
+- Multi-repo engineers
+- CI/CD and automation owners
+- People who prefer text-first workflows
 
-### Plan Mode
-- Read-only collaborative planning **before** implementation
-- Switch from Agent → Plan when the task is large or ambiguous
-- Model creates a checklist → you refine together → then execute
+### When To Use It
+- Headless servers
+- Automation and scripting
+- Multi-repo work
+- Lightweight or low-memory environments
 
-### Ask Mode
-- Read-only exploration and Q&A—**no changes to your code**
-- Great for understanding unfamiliar codebases or getting explanations
+### Products To Mention
+- Cursor CLI
+- Terminal `Cmd+K`
+- Slash commands like `/model`
 
----
+### Main Talk Track
+- If it works in the CLI, it can usually be automated and run on a server.
+- This is why the CLI is a building block, not a side feature.
+- Claude Code is a useful comparison because it is CLI-first.
+- Many customers still do not realize Cursor has a strong CLI surface.
 
-## Critical Concept: Context Window (5 min)
-
-**What it is**: The model's "short-term memory"—managed by Cursor
-
-**Why it matters**: 
-- Models have NO native short-term memory
-- Cursor sends relevant history with each prompt
-- As context grows → accuracy degrades (show the graph mental model)
-
-**Best practice**: 
-> **Start a new chat session (+ button) every time you shift focus**
-
-**Check your usage**: Hover over the wheel icon in the input box
+### Optional Demo Hooks
+- `agent` in a terminal
+- Terminal `Cmd+K` turning plain English into a shell command
+- `/model` as the text-first version of a model picker
 
 ---
 
-## Model Agnosticism (3 min)
-- **We support ALL leading models**: Anthropic, OpenAI, Google, xAI, open-source
-- **Why this matters**:
-  - We tune system prompts per model for best output
-  - We roll out new models same-day (often within minutes)
-  - Enterprise admins can restrict which models are available
-- **Composer 1**: Our own model—purpose-built for code, incredibly fast
-  - "It's like crack—once you use it, other models feel slow"
-  - Composer 2 coming soon (targeting Claude 4.5 Opus level)
+## IDE: Cursor's Core Product (7-8 min)
+
+### What It Is
+- A fork of VS Code with files, editor, chat, browser, and terminal working together.
+- This is where most engineers will spend their time.
+
+### Who Uses It
+- Most engineers
+- Anyone who wants visual feedback, diffs, previews, and safer defaults
+
+### When To Use It
+- Daily development
+- Debugging
+- Browser preview
+- Design-to-code and general multi-file work
+
+### Products To Mention
+- Tab / Fusion
+- Inline Edit (`Cmd+K`)
+- Chat / Agent (`Cmd+L`)
+- Ask / Plan / Agent modes
+- Rules, Skills, and MCPs
+- Browser, Marketplace, and Glass
+
+### Main Talk Track
+- The IDE is the CLI with visual chrome and discoverability layered on top.
+- In the CLI, you type `/model`. In the IDE, you pick from a dropdown. Same capability, different experience.
+- This is why the IDE is still the core product and usually the easiest place to start.
+
+### Four Quadrants To Call Out
+1. Left: file explorer
+2. Center: editor
+3. Right: chat pane
+4. Bottom: terminal / utilities
+
+### Good Demo Anchors If Needed
+- Tab autocomplete
+- Inline Edit
+- Multi-file Agent task
+- MCP-assisted workflow
 
 ---
 
-## Context & Knowledge
+## Cloud: Agents Without the Laptop (5-6 min)
 
-### @ Mentions
-- `@file` / `@folder` — attach specific code files or directories
-- `@docs` — attach indexed documentation (Settings → Indexing & Docs → Add Doc)
-- `@url` — pull in content from a URL
-- `@symbols` — reference specific functions, classes, or variables
-- `@git` — reference git history, diffs, commits
-- `@browser` — control the integrated browser
+### What It Is
+- Remote agents triggered from the web, Slack, or other tools.
+- The local machine is no longer the center of gravity.
 
-**Pro tip**: Attaching specific files feels more precise and saves search time
+### Who Uses It
+- PMs
+- AEs
+- Non-engineers
+- Enterprise teams that need async work
 
-### .cursor/rules
-- Project-level instructions that shape AI behavior
-- Define coding standards, conventions, architecture decisions
-- Commit to the repo so the **whole team** gets consistent AI behavior
-- Always-applied rules vs file-pattern-specific rules
+### When To Use It
+- Async feature requests
+- Scheduled documentation or maintenance tasks
+- Cross-repo work without local setup
 
-### Skills (SKILL.md)
-- Reusable, composable workflows the agent can follow
-- Think of them as "recipes" the agent reads and executes step-by-step
-- Can be project-level or user-level
+### Products To Mention
+- Cloud Agents
+- Automations
+- Self-hosted Cloud Agents
+- BugBot
 
-### MCP (Model Context Protocol)
-- Connect external tools directly into the agent's workflow
-- Examples: Notion, Figma, Linear, Slack, Sentry, Datadog, databases
-- Agent can read from and write to these tools mid-task
+### Main Talk Track
+- This is the highest abstraction layer because the work moves off the laptop entirely.
+- It opens Cursor up to people who do not want to clone repos or manage local setup.
+- Adoption is still early, which also means the upside is large.
 
-### Notepads
-- Reusable context snippets you can `@` reference across chats
-- Great for storing architecture decisions, API patterns, or team conventions
-
-### .cursoreignore
-- Control what the AI can and can't see in your codebase
-- Works like `.gitignore`—exclude sensitive files, large generated files, etc.
-
-### Codebase Indexing (Differentiator!)
-- Cursor indexes your **entire codebase** automatically
-- All tools (Tab, Inline Edit, Chat) are connected to the index
-- **Stored as vector embeddings** (just 1s and 0s—we can't read your code)
-- **Extremely fast** search even in massive codebases (100k+ files)
-
-**Talk track**: "This is one of our biggest differentiators vs competitors"
+### Useful Story Hook
+- The AE / internal-tool example: an async request comes in, a cloud agent ships the feature, and multiple teammates benefit without engineering manually doing every step.
 
 ---
 
-## Background & Autonomous Agents
+## Choosing the Right Surface (3-4 min)
 
-### Background Agents (Cloud)
-- Spin up agents that work on tasks **in the cloud, asynchronously**, on their own branch
-- You keep working while the agent handles a separate task
-- Great for parallelizing work across multiple features or bugs
+| Dimension | CLI | IDE | Cloud |
+|-----------|-----|-----|-------|
+| **Portability** | Anywhere with a terminal | Local machine | Anywhere with a browser |
+| **Best for** | Automation and power users | Daily engineering work | Async and remote execution |
+| **Visual feedback** | Lowest | Highest | Medium |
+| **Multi-repo work** | Excellent | Good | Excellent |
+| **Async / scheduled work** | Scriptable | Human-driven | Native |
 
-### Automations
-- Run automations in the cloud
-
-### Multi-Agent Parallelism
-- Launch multiple sub-agents to explore or work on different parts of a codebase simultaneously
-- Agent can delegate: fast model for simple searches, powerful model for complex reasoning
-
----
-
-## Code Quality & Review
-
-### BugBot
-- Automated AI code review on pull requests
-- Catches bugs, security issues, style problems before human review
-
-### Lint Integration
-- Agent reads and fixes linter errors after making changes
-- Keeps code clean without manual intervention
+### Main Talk Track
+- These surfaces are **complementary**, not competing.
+- Most teams will use a mix:
+  - CLI for automation
+  - IDE for day-to-day development
+  - Cloud for async execution
+- The right question is not "Which one is best?" It is "Which one fits this job?"
 
 ---
 
-## Model Selection
+## Why Surface Diversity Matters in Enterprise (3-4 min)
 
-### Model Picker
-- Choose between different models (Claude, GPT, Gemini, etc.) per chat or globally
-- **Composer 1**: Cursor's own model—purpose-built for code, incredibly fast
+### Marketplace + Admin Control
+- Team-pinned plugins and skills let each persona start with the right guardrails.
+- Admins can shape the environment instead of hoping every user memorizes the right prompts.
 
-### Model Routing
-- Sub-agents can use different models for different tasks
-- Fast model for simple searches, powerful model for complex reasoning
-- Enterprise admins can restrict which models are available
+### Model Controls
+- Enterprise admins can restrict which models are available by role.
+- This matters when PMs, engineers, and analysts should not all have the same defaults.
 
----
+### Self-Hosted Cloud Agents
+- Critical for security-sensitive customers.
+- Lets them adopt cloud-style workflows without moving code outside their infrastructure.
 
-## Workflow Integrations
+### Competitive Framing
+- CLI-only tools are strong for experts.
+- It is harder for them to become a broad enterprise control plane with visual governance, plugins, and admin UX.
 
-### Git Integration
-- Agent can commit, create branches, open PRs via `gh`
-- Full git workflow without leaving the IDE
-
-### MCP Servers
-| Server | Use Case |
-|--------|----------|
-| **Figma** | Design-to-code: turn Figma designs into working components |
-| **Linear** | Issue tracking: read/update tickets from chat |
-| **Notion** | Docs & tasks: query databases, create pages |
-| **Sentry** | Error monitoring: investigate production errors |
-| **Slack** | Messaging: read/send messages |
-| **Datadog** | Observability: query metrics and logs |
-| **Databricks** | Data: run SQL queries, manage pipelines |
-
-### Browser Automation
-- Agent can navigate, click, fill forms, screenshot, and test web apps in a real browser
-- **Two ways to use**:
-  1. **Run button** (triangle icon): Just opens the page
-  2. **`@browser` in chat**: Agent controls the browser
-- **Demo**: "Test the contact us form using @browser"
+### Main Talk Track
+- Cursor's moat is not one feature.
+- It is the combination of multiple surfaces plus enterprise controls.
 
 ---
 
-## Customization & Team
-
-### Team-Shared Rules
-- Commit `.cursor/rules` to the repo so the whole team gets consistent AI behavior
-- Enforce coding standards, security practices, architecture patterns
-
-### Privacy Mode
-- Control what data leaves your machine
-- Enterprise-grade data handling
-
-### API Key Configuration
-- Bring your own API keys for any supported model provider
+## Key Takeaways (2 min)
+1. **CLI is the foundation**: portable, scriptable, and automation-friendly.
+2. **IDE is the core product**: where most engineers live and where the UX is easiest to discover.
+3. **Cloud is the growth frontier**: async agents expand the audience beyond engineers.
+4. **The right surface depends on the job**: most teams will mix all three.
+5. **Surface diversity matters more as organizations scale**: it enables governance, persona-based workflows, and enterprise adoption.
 
 ---
 
-## Troubleshooting Tips (Keep in Back Pocket)
+## Back Pocket Q&A
 
+### If People Ask About Models
+- Cursor supports all major frontier models.
+- Enterprise admins can restrict which models are available.
+- Model choice matters less than workflow fit for this deck.
+
+### If People Ask About Context
+- Cursor manages the model's short-term working context.
+- Best practice: start a new chat when you switch tasks.
+
+### If People Ask About Rules / Skills / MCPs
+- **Rules** shape project-level AI behavior.
+- **Skills** are reusable workflows / recipes.
+- **MCPs** connect outside systems like Figma, Linear, Notion, Slack, Sentry, Datadog, and databases.
+
+### If People Ask About Browser or Git Workflows
+- Agent can use a real browser for testing and screenshots.
+- Agent can also handle git steps like commits and PR creation.
+
+### If People Ask About Troubleshooting
 | Issue | Fix |
 |-------|-----|
-| Browser won't load | Check Settings → Network → Disable proxy |
-| Indexer not active | Usually a proxy issue—same fix |
-| Need to bypass local restrictions | Try Cloud Agent (Agent Type dropdown) |
-| Chrome vs Browser Tab | Settings → Tools & MCP → Browser Automation |
+| Browser will not load | Check Settings -> Network -> Disable proxy |
+| Indexer is not active | Usually the same proxy issue |
+| Local environment is blocked | Try the Cloud surface instead |
 
 ---
 
-## Wrap-Up Talking Points
-- **Non-deterministic nature**: Same prompt can give different results—be on your toes in demos, but it's also a teaching opportunity
-- **Start simple**: Tab → Inline Edit → Chat Pane is the typical adoption journey
-- **Lean on Field Engineering**: We're here to help—don't hesitate to bring us in
-
----
-
-## Key Differentiators to Remember
-1. **Tab/Fusion model** — fastest, smartest autocomplete in the space
-2. **Codebase indexing** — best-in-class understanding of large codebases
-3. **Model agnostic** — all leading models, tuned system prompts, same-day releases
-4. **Composer 1** — our own model, purpose-built for code, blazing fast
-5. **IDE-first approach** — full control over UX, not just a plugin
-6. **MCP ecosystem** — deep integrations with Figma, Linear, Notion, Sentry, Slack, and more
-7. **Background agents** — async cloud agents that work on their own branch while you keep coding
-8. **Rules & Skills** — team-shareable AI behavior customization that lives in the repo
+## Close
+- Re-emphasize: Cursor meets users at different layers of abstraction.
+- Start with the surface that feels natural for the user.
+- Lean on Field Engineering for demos, setup help, and follow-up technical questions.

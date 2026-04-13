@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#f4f7fb" />
+  <rect x="40" y="40" width="1200" height="640" rx="28" fill="#ffffff" stroke="#93a1a1" stroke-width="4" stroke-dasharray="18 12" />
+  <text x="640" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#268bd2">PLACEHOLDER</text>
+  <text x="640" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="52" font-weight="700" fill="#657b83">CLI Plugin Discovery</text>
+  <text x="640" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#657b83">Show a terminal screenshot using `/plugin discover`</text>
+  <text x="640" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#657b83">or a similar text-only plugin installation flow.</text>
+  <text x="640" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#657b83">If possible, include a few search results in the terminal output.</text>
+  <text x="640" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" fill="#93a1a1">Goal: contrast expert-friendly CLI workflows with broader-team usability.</text>
+  <text x="640" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#268bd2">Drop in real screenshot here</text>
+</svg>
