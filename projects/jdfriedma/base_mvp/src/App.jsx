@@ -1,11 +1,24 @@
 import { useState, useRef, useEffect } from 'react'
-import { PASSAGE } from './data/passage.js'
+import {
+  PASSAGES,
+  DEFAULT_DIFFICULTY,
+} from './data/passages.js'
+import DifficultyPicker from './components/DifficultyPicker.jsx'
 import './App.css'
 
 export default function App() {
+  const [difficulty, setDifficulty] = useState(DEFAULT_DIFFICULTY)
   const [typed, setTyped] = useState('')
   const inputRef = useRef(null)
-  const finished = typed === PASSAGE
+
+  const passage = PASSAGES[difficulty]
+  const finished = typed === passage
+
+  function handleDifficultyChange(next) {
+    setDifficulty(next)
+    setTyped('')
+    queueMicrotask(() => inputRef.current?.focus())
+  }
 
   useEffect(() => {
     if (!finished) {
@@ -15,7 +28,7 @@ export default function App() {
 
   function handleChange(e) {
     const next = e.target.value
-    if (next.length <= PASSAGE.length) {
+    if (next.length <= passage.length) {
       setTyped(next)
     }
   }
@@ -25,7 +38,7 @@ export default function App() {
     queueMicrotask(() => inputRef.current?.focus())
   }
 
-  const chars = Array.from(PASSAGE)
+  const chars = Array.from(passage)
 
   return (
     <div className="app">
@@ -36,6 +49,11 @@ export default function App() {
 
       <main className="main">
         <section className="board" aria-label="Typing feedback">
+          <DifficultyPicker
+            value={difficulty}
+            onChange={handleDifficultyChange}
+          />
+
           <div className="passage" role="presentation">
             {chars.map((targetCh, i) => {
               const isTyped = i < typed.length
@@ -46,10 +64,22 @@ export default function App() {
               } else if (isCursor) {
                 statusClass = 'cursor-cell'
               }
-              const display =
-                targetCh === ' ' ? '\u00a0' : targetCh
+              if (targetCh === '\n') {
+                return (
+                  <span
+                    key={`${difficulty}-${i}`}
+                    className={`glyph glyph--newline ${statusClass}`}
+                  >
+                    <br />
+                  </span>
+                )
+              }
+              const display = targetCh === ' ' ? '\u00a0' : targetCh
               return (
-                <span key={i} className={`glyph ${statusClass}`}>
+                <span
+                  key={`${difficulty}-${i}`}
+                  className={`glyph ${statusClass}`}
+                >
                   {display}
                 </span>
               )
@@ -76,7 +106,7 @@ export default function App() {
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
-            rows={3}
+            rows={difficulty === 'hard' ? 8 : 3}
             readOnly={finished}
             aria-label="Type the passage"
           />

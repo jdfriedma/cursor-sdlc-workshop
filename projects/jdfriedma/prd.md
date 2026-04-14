@@ -78,6 +78,7 @@
 ### Feature 3: Difficulty levels
 - **Description:** Let the user pick a **difficulty** that only changes which **hardcoded passage** loads (e.g. short / medium / long strings in an array — still no API). Reset progress when the passage changes.
 - **Files to create:** `src/components/DifficultyPicker.jsx` (and keep passages in e.g. `src/data/passages.js`)
+- **Status:** Implemented in `base_mvp` with Easy / Medium / Hard tiers and Marvis-themed passages in `src/data/passages.js`.
 
 ---
 
