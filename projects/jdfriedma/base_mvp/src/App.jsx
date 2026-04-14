@@ -1,24 +1,46 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import {
-  PASSAGES,
+  pickRandomPassage,
   DEFAULT_DIFFICULTY,
+  CHARS_PER_WORD,
 } from './data/passages.js'
 import DifficultyPicker from './components/DifficultyPicker.jsx'
+import WpmDisplay from './components/WpmDisplay.jsx'
+import AccuracyTracker from './components/AccuracyTracker.jsx'
 import './App.css'
 
 export default function App() {
   const [difficulty, setDifficulty] = useState(DEFAULT_DIFFICULTY)
+  const [passage, setPassage] = useState(() =>
+    pickRandomPassage(DEFAULT_DIFFICULTY),
+  )
+  const [passageLayoutKey, setPassageLayoutKey] = useState(0)
   const [typed, setTyped] = useState('')
+  const [correctForward, setCorrectForward] = useState(0)
+  const [totalForward, setTotalForward] = useState(0)
+  const [nowMs, setNowMs] = useState(() => Date.now())
+  const [sessionEndMs, setSessionEndMs] = useState(null)
+  const [startTimeMs, setStartTimeMs] = useState(null)
+
   const inputRef = useRef(null)
 
-  const passage = PASSAGES[difficulty]
-  const finished = typed === passage
+  const finished = typed === passage && passage.length > 0
 
-  function handleDifficultyChange(next) {
-    setDifficulty(next)
-    setTyped('')
-    queueMicrotask(() => inputRef.current?.focus())
-  }
+  const phase = useMemo(() => {
+    if (finished) return 'done'
+    if (typed.length > 0) return 'typing'
+    return 'idle'
+  }, [finished, typed.length])
+
+  /** Drive live WPM updates without calling Date.now() during render. */
+  useEffect(() => {
+    const active = typed.length > 0 && !finished
+    if (!active) return
+    const tick = () => setNowMs(Date.now())
+    tick()
+    const id = setInterval(tick, 150)
+    return () => clearInterval(id)
+  }, [typed, finished])
 
   useEffect(() => {
     if (!finished) {
@@ -26,17 +48,79 @@ export default function App() {
     }
   }, [finished])
 
-  function handleChange(e) {
-    const next = e.target.value
-    if (next.length <= passage.length) {
-      setTyped(next)
-    }
+  function resetRunState() {
+    setTyped('')
+    setCorrectForward(0)
+    setTotalForward(0)
+    setStartTimeMs(null)
+    setSessionEndMs(null)
+    queueMicrotask(() => inputRef.current?.focus())
+  }
+
+  function bumpPassageLayout() {
+    setPassageLayoutKey((k) => k + 1)
+  }
+
+  function handleDifficultyChange(next) {
+    setDifficulty(next)
+    setPassage(pickRandomPassage(next))
+    bumpPassageLayout()
+    resetRunState()
   }
 
   function handleReset() {
-    setTyped('')
-    queueMicrotask(() => inputRef.current?.focus())
+    setPassage(pickRandomPassage(difficulty))
+    bumpPassageLayout()
+    resetRunState()
   }
+
+  function handleChange(e) {
+    const next = e.target.value
+    if (next.length > passage.length) return
+
+    if (next.length > typed.length) {
+      for (let i = typed.length; i < next.length; i++) {
+        setTotalForward((t) => t + 1)
+        if (next[i] === passage[i]) {
+          setCorrectForward((c) => c + 1)
+        }
+      }
+    }
+
+    let runStartMs = startTimeMs
+    if (runStartMs == null && next.length > 0) {
+      runStartMs = Date.now()
+      setStartTimeMs(runStartMs)
+    }
+    if (typed.length > 0 && next.length === 0) {
+      setStartTimeMs(null)
+      runStartMs = null
+    }
+
+    setTyped(next)
+
+    if (next === passage && passage.length > 0 && runStartMs != null) {
+      setSessionEndMs((prev) => prev ?? Date.now())
+    } else if (next !== passage) {
+      setSessionEndMs(null)
+    }
+  }
+
+  const liveWpm =
+    typed.length > 0 &&
+    !finished &&
+    startTimeMs != null
+      ? (typed.length / CHARS_PER_WORD) /
+        ((nowMs - startTimeMs) / 60_000)
+      : null
+
+  const finalWpm =
+    finished &&
+    sessionEndMs != null &&
+    startTimeMs != null
+      ? (passage.length / CHARS_PER_WORD) /
+        ((sessionEndMs - startTimeMs) / 60_000)
+      : null
 
   const chars = Array.from(passage)
 
@@ -54,6 +138,20 @@ export default function App() {
             onChange={handleDifficultyChange}
           />
 
+          <div className="stats-row">
+            <WpmDisplay
+              phase={phase}
+              liveWpm={liveWpm}
+              finalWpm={finalWpm}
+              charCountForWords={passage.length}
+            />
+            <AccuracyTracker
+              correct={correctForward}
+              total={totalForward}
+              phase={phase}
+            />
+          </div>
+
           <div className="passage" role="presentation">
             {chars.map((targetCh, i) => {
               const isTyped = i < typed.length
@@ -67,7 +165,7 @@ export default function App() {
               if (targetCh === '\n') {
                 return (
                   <span
-                    key={`${difficulty}-${i}`}
+                    key={`${passageLayoutKey}-${i}`}
                     className={`glyph glyph--newline ${statusClass}`}
                   >
                     <br />
@@ -77,7 +175,7 @@ export default function App() {
               const display = targetCh === ' ' ? '\u00a0' : targetCh
               return (
                 <span
-                  key={`${difficulty}-${i}`}
+                  key={`${passageLayoutKey}-${i}`}
                   className={`glyph ${statusClass}`}
                 >
                   {display}

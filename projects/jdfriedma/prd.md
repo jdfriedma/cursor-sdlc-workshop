@@ -70,10 +70,12 @@
 ### Feature 1: WPM display
 - **Description:** After the user finishes (or live while typing), show **words per minute** using elapsed time from **first keystroke** to completion. Use hardcoded assumptions: **5 characters = 1 word** (standard for typing tests) unless you document a different rule. Reset timing when starting a new run.
 - **Files to create:** `src/components/WpmDisplay.jsx` (receives duration + typed length or final stats via props from `App.jsx`)
+- **Status:** Implemented: gross WPM with live estimate while typing and final WPM at completion (`CHARS_PER_WORD = 5` in `src/data/passages.js`).
 
 ### Feature 2: Accuracy tracker
 - **Description:** Show **accuracy** as a percentage: correct keystrokes vs total keystrokes attempted (define clearly — e.g. every key that advances or attempts the next expected character counts). Display on finish or update live; avoid needing a server.
 - **Files to create:** `src/components/AccuracyTracker.jsx`
+- **Status:** Implemented: percentage = correct forward keystrokes ÷ total forward keystrokes; backspaces do not add to the denominator.
 
 ### Feature 3: Difficulty levels
 - **Description:** Let the user pick a **difficulty** that only changes which **hardcoded passage** loads (e.g. short / medium / long strings in an array — still no API). Reset progress when the passage changes.

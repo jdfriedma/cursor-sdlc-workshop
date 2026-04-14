@@ -116,6 +116,50 @@
   outline-offset: 2px;
 }
 
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.stat-card {
+  padding: 0.65rem 0.85rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(240, 216, 192, 0.15);
+  border-radius: 8px;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a89888;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #e8dfd6;
+  line-height: 1.2;
+}
+
+.stat-hint {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: #8a7d72;
+}
+
+@media (max-width: 520px) {
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .passage {
   font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
   font-size: 1.125rem;
