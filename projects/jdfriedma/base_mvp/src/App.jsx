@@ -4,6 +4,7 @@ import {
   DEFAULT_DIFFICULTY,
   CHARS_PER_WORD,
 } from './data/passages.js'
+import { pickRandomTagline } from './data/taglines.js'
 import DifficultyPicker from './components/DifficultyPicker.jsx'
 import WpmDisplay from './components/WpmDisplay.jsx'
 import AccuracyTracker from './components/AccuracyTracker.jsx'
@@ -53,6 +54,9 @@ export default function App() {
   const [startTimeMs, setStartTimeMs] = useState(null)
   const [successCount, setSuccessCount] = useState(0)
   const [failureCount, setFailureCount] = useState(0)
+  const [tagline, setTagline] = useState(
+    () => 'Retype the passage. Marvis is watching.',
+  )
 
   const inputRef = useRef(null)
 
@@ -98,12 +102,14 @@ export default function App() {
     setPassage(pickRandomPassage(next))
     bumpPassageLayout()
     resetRunState()
+    setTagline(pickRandomTagline())
   }
 
   function handleReset() {
     setPassage(pickRandomPassage(difficulty))
     bumpPassageLayout()
     resetRunState()
+    setTagline(pickRandomTagline())
   }
 
   function handleChange(e) {
@@ -194,9 +200,7 @@ export default function App() {
       <header className="header">
         <h1 className="title">Marvis Bacon Judges Typing</h1>
         <MarvisMascot />
-        <p className="tagline">
-          Retype the passage. Marvis is watching.
-        </p>
+        <p className="tagline">{tagline}</p>
       </header>
 
       <main className="main">
